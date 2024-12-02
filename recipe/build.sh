@@ -2,6 +2,9 @@
 
 set -o xtrace -o nounset -o pipefail -o errexit
 
+export CARGO_PROFILE_RELEASE_STRIP=symbols
+export CARGO_PROFILE_RELEASE_LTO=fat
+
 # check licenses
 cargo-bundle-licenses \
     --format yaml \
@@ -16,6 +19,3 @@ mkdir -p ${PREFIX}/share/zsh/site-functions
 install -m 644 completions/bash/csview.bash ${PREFIX}/etc/bash_completion.d/csview.bash
 install -m 644 completions/fish/csview.fish ${PREFIX}/share/fish/vendor_completions.d/csview.fish
 install -m 644 completions/zsh/_csview ${PREFIX}/share/zsh/site-functions/_csview
-
-# strip debug symbols
-"$STRIP" "$PREFIX/bin/${PKG_NAME}"
